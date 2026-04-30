@@ -44,6 +44,9 @@ const PRODUCTS = [
 
 const TARGET_STORES = ['기흥점', '광명점', '강동점', '고양점', '동부산점'];
 
+// One zip code per store region — used to check real-time delivery coverage
+const DELIVERY_ZIPS = ['17086', '16938', '05203', '10551', '46084'];
+
 const IKEA_STORES_URL = 'https://www.ikea.com/kr/ko/meta-data/informera/stores-suggested-detailed.json';
 
 const IKEA_HEADERS = {
@@ -94,9 +97,23 @@ async function fetchStoreMap() {
   return map;
 }
 
-async function fetchAvailability(itemNo) {
-  const url = `https://api.ingka.ikea.com/cia/availabilities/ru/kr?itemNos=${itemNo}&expand=StoresList,Restocks,SalesLocations`;
+async function fetchAllStock() {
+  const itemNos = PRODUCTS.map(p => p.id).join(',');
+  const url = `https://api.ingka.ikea.com/cia/availabilities/ru/kr?itemNos=${itemNos}&expand=StoresList`;
   return fetchJson(url);
+}
+
+async function fetchDeliveryByZip(zip) {
+  const itemNos = PRODUCTS.map(p => p.id).join(',');
+  const url = `https://api.ingka.ikea.com/cia/availabilities/ru/kr?itemNos=${itemNos}&expand=StoresList&zip=${zip}`;
+  const data = await fetchJson(url);
+  const result = {};
+  for (const a of (data.availabilities || [])) {
+    if (a.classUnitKey?.classUnitType === 'RU') {
+      result[a.itemKey.itemNo] = a.availableForHomeDelivery ?? null;
+    }
+  }
+  return result;
 }
 
 function extractQuantity(availability) {
@@ -119,52 +136,50 @@ app.get('/api/debug/stores', async (req, res) => {
 });
 
 app.get('/api/debug/availability/:itemNo', async (req, res) => {
-  try { res.json(await fetchAvailability(req.params.itemNo)); }
-  catch (err) { res.status(500).json({ error: err.message }); }
+  try {
+    const url = `https://api.ingka.ikea.com/cia/availabilities/ru/kr?itemNos=${req.params.itemNo}&expand=StoresList,Restocks,SalesLocations`;
+    res.json(await fetchJson(url));
+  } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 app.get('/api/stock', async (req, res) => {
   try {
-    const [storeMap, ...availResults] = await Promise.all([
+    const [storeMap, stockData, ...deliveryByZip] = await Promise.all([
       fetchStoreMap(),
-      ...PRODUCTS.map(p =>
-        fetchAvailability(p.id).catch(e => ({ error: e.message, availabilities: [] }))
-      )
+      fetchAllStock().catch(e => ({ error: e.message, availabilities: [] })),
+      ...DELIVERY_ZIPS.map(zip => fetchDeliveryByZip(zip).catch(() => ({})))
     ]);
 
     // stock[매장명][제품id] = 수량
-    // delivery[제품id] = true | false | null
     const stock = {};
-    const delivery = {};
     TARGET_STORES.forEach(name => { stock[name] = {}; });
 
-    PRODUCTS.forEach((product, pi) => {
-      const result = availResults[pi];
-      if (result.error) {
-        console.warn(`Availability error for ${product.id}:`, result.error);
-        delivery[product.id] = null;
-        return;
-      }
-      delivery[product.id] = null;
-      (result.availabilities || []).forEach(a => {
+    if (!stockData.error) {
+      (stockData.availabilities || []).forEach(a => {
         const key = a.classUnitKey || {};
-        // 국가 단위 항목(RU/KR)에서 배송 가능 여부 추출
-        if (key.classUnitType === 'RU' && key.classUnitCode === 'KR') {
-          delivery[product.id] = a.availableForHomeDelivery ?? null;
-          return;
-        }
-        // 매장 단위 항목에서 재고 추출
-        const storeCode = String(key.classUnitCode || '');
-        const storeName = storeMap[storeCode];
+        if (key.classUnitType !== 'STO') return;
+        const storeName = storeMap[String(key.classUnitCode || '')];
         if (!storeName) return;
         const qty = extractQuantity(a);
         if (qty === null) return;
         const matched = TARGET_STORES.find(t => storeName.includes(t) || t.includes(storeName));
-        if (matched) stock[matched][product.id] = qty;
+        if (matched) stock[matched][a.itemKey.itemNo] = qty;
       });
+    }
+
+    // delivery[제품id] = 'all' | 'partial' | 'none' | null
+    // 지역별 배송 가능 여부: 5개 대표 우편번호 기준
+    const delivery = {};
+    PRODUCTS.forEach(product => {
+      const checks = deliveryByZip.map(zipResult => zipResult[product.id]);
+      const valid = checks.filter(v => v !== null && v !== undefined);
+      if (valid.length === 0) { delivery[product.id] = null; return; }
+      const available = valid.filter(v => v === true).length;
+      if (available === valid.length) delivery[product.id] = 'all';
+      else if (available > 0)        delivery[product.id] = 'partial';
+      else                           delivery[product.id] = 'none';
     });
 
-    // 제품 목록에 이미지 URL 포함
     const productsWithImages = PRODUCTS.map(p => ({
       ...p,
       imageUrl: imageCache[p.id] || null

@@ -219,9 +219,10 @@
       white-space: nowrap;
     }
 
-    .delivery-ok   { background: #e6f4ea; color: #1e7e34; }
-    .delivery-no   { background: #fde8e8; color: #b91c1c; }
-    .delivery-null { background: transparent; color: #ccc; font-size: 12px; }
+    .delivery-all     { background: #e6f4ea; color: #1e7e34; }
+    .delivery-partial { background: #fff3cd; color: #856404; }
+    .delivery-none    { background: #fde8e8; color: #b91c1c; }
+    .delivery-null    { background: transparent; color: #ccc; font-size: 12px; }
 
     thead th.delivery-header {
       min-width: 100px;
@@ -313,8 +314,9 @@
       <span class="legend-item"><span class="legend-dot" style="background:#856404"></span>1~29개</span>
       <span class="legend-item"><span class="legend-dot" style="background:#999"></span>품절</span>
       <span style="color:#aaa; margin: 0 4px">|</span>
-      <span style="color:#555; font-weight:600">배송</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#1e7e34"></span>배송 가능</span>
+      <span style="color:#555; font-weight:600">온라인 배송</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#1e7e34"></span>전국 배송</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#856404"></span>일부 지역</span>
       <span class="legend-item"><span class="legend-dot" style="background:#b91c1c"></span>불가</span>
     </div>
 
@@ -385,9 +387,10 @@
         // 배송 가능 여부 셀
         const del = data.delivery?.[p.id];
         let delHtml;
-        if (del === true)  delHtml = '<span class="delivery-badge delivery-ok">✓ 배송 가능</span>';
-        else if (del === false) delHtml = '<span class="delivery-badge delivery-no">✕ 불가</span>';
-        else                   delHtml = '<span class="delivery-badge delivery-null">—</span>';
+        if (del === 'all')         delHtml = '<span class="delivery-badge delivery-all">✓ 전국 배송</span>';
+        else if (del === 'partial') delHtml = '<span class="delivery-badge delivery-partial">△ 일부 지역</span>';
+        else if (del === 'none')    delHtml = '<span class="delivery-badge delivery-none">✕ 불가</span>';
+        else                        delHtml = '<span class="delivery-badge delivery-null">—</span>';
         bodyHtml += `<td class="delivery-cell">${delHtml}</td>`;
 
         bodyHtml += '</tr>';

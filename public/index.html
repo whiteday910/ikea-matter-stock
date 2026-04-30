@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IKEA 매장별 재고 현황</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f5f0;
+      color: #111;
+      min-height: 100vh;
+      padding: 32px 16px;
+    }
+
+    header {
+      max-width: 1100px;
+      margin: 0 auto 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .ikea-logo {
+      background: #0058a3;
+      color: #ffda1a;
+      font-size: 22px;
+      font-weight: 900;
+      padding: 6px 14px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .card {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 14px 24px;
+      border-bottom: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .updated-time {
+      font-size: 13px;
+      color: #888;
+    }
+
+    .btn-refresh {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #0058a3;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-refresh:hover { background: #004f93; }
+    .btn-refresh:disabled { background: #aaa; cursor: not-allowed; }
+
+    .btn-refresh svg { transition: transform 0.5s; }
+    .btn-refresh.loading svg { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    /* 헤더 행: 첫 번째 빈 셀 + 각 지점명 */
+    thead th {
+      padding: 12px 16px;
+      text-align: center;
+      font-weight: 700;
+      color: #333;
+      background: #f7f7f7;
+      border-bottom: 2px solid #e0e0e0;
+      white-space: nowrap;
+    }
+
+    thead th.product-header {
+      text-align: left;
+      min-width: 260px;
+      width: 260px;
+    }
+
+    thead th.store-header {
+      min-width: 110px;
+    }
+
+    /* 바디 행: 제품 정보 셀 + 각 지점 재고 셀 */
+    tbody tr {
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.1s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #fafaf8; }
+
+    td {
+      padding: 10px 16px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    /* 제품 정보 셀 */
+    td.product-cell {
+      text-align: left;
+      padding: 10px 16px;
+    }
+
+    .product-cell-inner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .product-thumb {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 4px;
+      background: #f5f5f0;
+      flex-shrink: 0;
+    }
+
+    .product-thumb-placeholder {
+      width: 72px;
+      height: 72px;
+      border-radius: 4px;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ccc;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .product-info { min-width: 0; }
+
+    .product-name {
+      font-weight: 600;
+      font-size: 13.5px;
+      color: #111;
+      line-height: 1.4;
+      display: block;
+      word-break: keep-all;
+    }
+
+    .product-link {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 11px;
+      color: #0058a3;
+      text-decoration: none;
+    }
+
+    .product-link:hover { text-decoration: underline; }
+
+    /* 수량 뱃지 */
+    .qty {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 64px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .qty-high { background: #e6f4ea; color: #1e7e34; }
+    .qty-mid  { background: #fff3cd; color: #856404; }
+    .qty-zero { background: #f0f0f0; color: #999; font-size: 12px; }
+    .qty-null { background: transparent; color: #ccc; font-size: 12px; }
+
+    /* 로딩/에러 */
+    .loading-row td {
+      padding: 48px;
+      text-align: center;
+      color: #888;
+      font-size: 15px;
+    }
+
+    .error-box {
+      margin: 20px 24px;
+      padding: 14px 18px;
+      background: #fde8e8;
+      border-radius: 6px;
+      color: #b91c1c;
+      font-size: 14px;
+    }
+
+    /* 범례 */
+    .legend {
+      padding: 10px 24px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: #666;
+      align-items: center;
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    .debug-link {
+      text-align: right;
+      padding: 6px 24px 12px;
+      font-size: 11px;
+      color: #bbb;
+    }
+
+    .debug-link a { color: #aaa; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="ikea-logo">IKEA</div>
+    <div>
+      <h1>매장별 재고 현황</h1>
+      <div class="subtitle">기흥점 · 광명점 · 강동점 · 고양점 · 동부산점</div>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="updated-time" id="updatedTime">—</div>
+      <button class="btn-refresh" id="btnRefresh" onclick="loadStock()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+        </svg>
+        새로고침
+      </button>
+    </div>
+
+    <div id="errorBox"></div>
+
+    <div class="table-wrap">
+      <table id="stockTable">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody">
+          <tr class="loading-row"><td colspan="10">불러오는 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="legend">
+      <span style="color:#555; font-weight:600">재고</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#1e7e34"></span>30개 이상</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#856404"></span>1~29개</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#999"></span>품절</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#ccc"></span>정보 없음</span>
+    </div>
+
+    <div class="debug-link">
+      <a href="/api/debug/stores" target="_blank">매장 목록</a> ·
+      <a href="/api/debug/availability/90620053" target="_blank">원시 재고</a>
+    </div>
+  </div>
+
+  <script>
+    function qtyClass(qty) {
+      if (qty === null || qty === undefined) return 'qty-null';
+      if (qty === 0) return 'qty-zero';
+      if (qty < 30) return 'qty-mid';
+      return 'qty-high';
+    }
+
+    function qtyLabel(qty) {
+      if (qty === null || qty === undefined) return '—';
+      if (qty === 0) return '품절';
+      return qty + '개';
+    }
+
+    function thumbHtml(product) {
+      if (product.imageUrl) {
+        return `<img class="product-thumb" src="${product.imageUrl}" alt="${product.name}"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <div class="product-thumb-placeholder" style="display:none">📦</div>`;
+      }
+      return `<div class="product-thumb-placeholder">📦</div>`;
+    }
+
+    function renderTable(data) {
+      const head = document.getElementById('tableHead');
+      const body = document.getElementById('tableBody');
+
+      // 헤더: 제품열 + 지점열들
+      let headHtml = '<tr><th class="product-header">제품</th>';
+      data.stores.forEach(s => {
+        headHtml += `<th class="store-header">IKEA ${s}</th>`;
+      });
+      headHtml += '</tr>';
+      head.innerHTML = headHtml;
+
+      // 바디: 제품 행 × 지점 열
+      let bodyHtml = '';
+      data.products.forEach(p => {
+        bodyHtml += '<tr>';
+
+        // 제품 정보 셀 (썸네일 + 이름 + 링크)
+        bodyHtml += `<td class="product-cell">
+          <div class="product-cell-inner">
+            ${thumbHtml(p)}
+            <div class="product-info">
+              <span class="product-name">${p.name}</span>
+              <a class="product-link" href="${p.url}" target="_blank">IKEA 제품 페이지 →</a>
+            </div>
+          </div>
+        </td>`;
+
+        // 지점별 재고 셀
+        data.stores.forEach(store => {
+          const qty = data.stock[store]?.[p.id];
+          const cls = qtyClass(qty);
+          bodyHtml += `<td><span class="qty ${cls}">${qtyLabel(qty)}</span></td>`;
+        });
+
+        bodyHtml += '</tr>';
+      });
+      body.innerHTML = bodyHtml;
+    }
+
+    async function loadStock() {
+      const btn = document.getElementById('btnRefresh');
+      const errBox = document.getElementById('errorBox');
+
+      btn.disabled = true;
+      btn.classList.add('loading');
+      errBox.innerHTML = '';
+      document.getElementById('tableBody').innerHTML =
+        '<tr class="loading-row"><td colspan="10">불러오는 중...</td></tr>';
+
+      try {
+        const res = await fetch('/api/stock');
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+        renderTable(data);
+        const ts = data.updatedAt ? new Date(data.updatedAt).toLocaleString('ko-KR') : '—';
+        document.getElementById('updatedTime').textContent = `마지막 업데이트: ${ts}`;
+      } catch (err) {
+        errBox.innerHTML = `<div class="error-box">오류: ${err.message}</div>`;
+        document.getElementById('tableBody').innerHTML =
+          '<tr class="loading-row"><td colspan="10">데이터 로드 실패</td></tr>';
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove('loading');
+      }
+    }
+
+    loadStock();
+  </script>
+</body>
+</html>

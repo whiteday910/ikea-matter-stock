@@ -1,0 +1,13 @@
+{
+  "name": "ikea-matter-stock",
+  "version": "1.0.0",
+  "description": "IKEA 매장별 재고 현황 조회",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

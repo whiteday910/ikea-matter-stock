@@ -133,17 +133,28 @@ app.get('/api/stock', async (req, res) => {
     ]);
 
     // stock[매장명][제품id] = 수량
+    // delivery[제품id] = true | false | null
     const stock = {};
+    const delivery = {};
     TARGET_STORES.forEach(name => { stock[name] = {}; });
 
     PRODUCTS.forEach((product, pi) => {
       const result = availResults[pi];
       if (result.error) {
         console.warn(`Availability error for ${product.id}:`, result.error);
+        delivery[product.id] = null;
         return;
       }
+      delivery[product.id] = null;
       (result.availabilities || []).forEach(a => {
-        const storeCode = String(a.classUnitKey?.classUnitCode || '');
+        const key = a.classUnitKey || {};
+        // 국가 단위 항목(RU/KR)에서 배송 가능 여부 추출
+        if (key.classUnitType === 'RU' && key.classUnitCode === 'KR') {
+          delivery[product.id] = a.availableForHomeDelivery ?? null;
+          return;
+        }
+        // 매장 단위 항목에서 재고 추출
+        const storeCode = String(key.classUnitCode || '');
         const storeName = storeMap[storeCode];
         if (!storeName) return;
         const qty = extractQuantity(a);
@@ -163,6 +174,7 @@ app.get('/api/stock', async (req, res) => {
       products: productsWithImages,
       stores: TARGET_STORES,
       stock,
+      delivery,
       updatedAt: new Date().toISOString()
     });
   } catch (err) {

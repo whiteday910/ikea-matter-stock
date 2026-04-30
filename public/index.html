@@ -207,6 +207,31 @@
     .qty-zero { background: #f0f0f0; color: #999; font-size: 12px; }
     .qty-null { background: transparent; color: #ccc; font-size: 12px; }
 
+    /* 배송 뱃지 */
+    .delivery-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .delivery-ok   { background: #e6f4ea; color: #1e7e34; }
+    .delivery-no   { background: #fde8e8; color: #b91c1c; }
+    .delivery-null { background: transparent; color: #ccc; font-size: 12px; }
+
+    thead th.delivery-header {
+      min-width: 100px;
+      border-left: 2px solid #e0e0e0;
+    }
+
+    td.delivery-cell {
+      border-left: 2px solid #f0f0f0;
+    }
+
     /* 로딩/에러 */
     .loading-row td {
       padding: 48px;
@@ -287,7 +312,10 @@
       <span class="legend-item"><span class="legend-dot" style="background:#1e7e34"></span>30개 이상</span>
       <span class="legend-item"><span class="legend-dot" style="background:#856404"></span>1~29개</span>
       <span class="legend-item"><span class="legend-dot" style="background:#999"></span>품절</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#ccc"></span>정보 없음</span>
+      <span style="color:#aaa; margin: 0 4px">|</span>
+      <span style="color:#555; font-weight:600">배송</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#1e7e34"></span>배송 가능</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#b91c1c"></span>불가</span>
     </div>
 
     <div class="debug-link">
@@ -323,15 +351,15 @@
       const head = document.getElementById('tableHead');
       const body = document.getElementById('tableBody');
 
-      // 헤더: 제품열 + 지점열들
+      // 헤더: 제품열 + 지점열들 + 배송열
       let headHtml = '<tr><th class="product-header">제품</th>';
       data.stores.forEach(s => {
         headHtml += `<th class="store-header">IKEA ${s}</th>`;
       });
-      headHtml += '</tr>';
+      headHtml += '<th class="delivery-header">온라인 배송</th></tr>';
       head.innerHTML = headHtml;
 
-      // 바디: 제품 행 × 지점 열
+      // 바디: 제품 행 × 지점 열 + 배송 열
       let bodyHtml = '';
       data.products.forEach(p => {
         bodyHtml += '<tr>';
@@ -353,6 +381,14 @@
           const cls = qtyClass(qty);
           bodyHtml += `<td><span class="qty ${cls}">${qtyLabel(qty)}</span></td>`;
         });
+
+        // 배송 가능 여부 셀
+        const del = data.delivery?.[p.id];
+        let delHtml;
+        if (del === true)  delHtml = '<span class="delivery-badge delivery-ok">✓ 배송 가능</span>';
+        else if (del === false) delHtml = '<span class="delivery-badge delivery-no">✕ 불가</span>';
+        else                   delHtml = '<span class="delivery-badge delivery-null">—</span>';
+        bodyHtml += `<td class="delivery-cell">${delHtml}</td>`;
 
         bodyHtml += '</tr>';
       });

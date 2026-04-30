@@ -6,6 +6,11 @@ const PORT = 3000;
 
 const PRODUCTS = [
   {
+    id: '50624741',
+    name: '그릴플랏스 (단품)',
+    url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-smart-50624741/'
+  },
+  {
     id: '90620053',
     name: '그릴플랏스 세트',
     url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-with-remote-control-smart-90620053/'
@@ -41,16 +46,6 @@ const PRODUCTS = [
     url: 'https://www.ikea.com/kr/ko/p/myggbett-door-window-sensor-smart-40617642/'
   },
   {
-    id: '70509820',
-    name: '라다 (AAA 충전지)',
-    url: 'https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/'
-  },
-  {
-    id: '50624741',
-    name: '그릴플랏스 (단품)',
-    url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-smart-50624741/'
-  },
-  {
     id: '70617768',
     name: '클리프보크 (누수센서)',
     url: 'https://www.ikea.com/kr/ko/p/klippbok-water-leakage-sensor-smart-70617768/'
@@ -69,6 +64,11 @@ const PRODUCTS = [
     id: '60619126',
     name: '카이플랏스 (E26 CCT 스타터키트)',
     url: 'https://www.ikea.com/kr/ko/p/kajplats-starter-kit-smart-white-spectrum-60619126/'
+  },
+  {
+    id: '70509820',
+    name: '라다 (AAA 충전지)',
+    url: 'https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/'
   }
 ];
 

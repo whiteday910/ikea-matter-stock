@@ -39,6 +39,11 @@ const PRODUCTS = [
     id: '40617642',
     name: '뮈그베트 (도어센서)',
     url: 'https://www.ikea.com/kr/ko/p/myggbett-door-window-sensor-smart-40617642/'
+  },
+  {
+    id: '70509820',
+    name: '라다 (AAA 충전지)',
+    url: 'https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/'
   }
 ];
 

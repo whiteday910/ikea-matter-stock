@@ -91,7 +91,23 @@
     .btn-refresh.loading svg { animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .table-wrap { overflow-x: auto; }
+    .table-wrap {
+      overflow-x: auto;
+      position: relative;
+    }
+
+    /* 우측 스크롤 가능 여부를 보여주는 그라데이션 힌트 */
+    .table-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 40px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.9));
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .table-wrap.scroll-end::after { opacity: 0; }
 
     table {
       width: 100%;
@@ -114,6 +130,10 @@
       text-align: left;
       min-width: 260px;
       width: 260px;
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      box-shadow: 2px 0 6px rgba(0,0,0,0.07);
     }
 
     thead th.store-header {
@@ -139,7 +159,14 @@
     td.product-cell {
       text-align: left;
       padding: 10px 16px;
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: #fff;
+      box-shadow: 2px 0 6px rgba(0,0,0,0.07);
     }
+
+    tbody tr:hover td.product-cell { background: #fafaf8; }
 
     .product-cell-inner {
       display: flex;
@@ -273,6 +300,40 @@
     }
 
     .debug-link a { color: #aaa; }
+
+    /* 모바일 스크롤 힌트 */
+    .scroll-hint {
+      display: none;
+      text-align: center;
+      font-size: 12px;
+      color: #aaa;
+      padding: 6px 16px 10px;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 16px 8px; }
+
+      .card-header { padding: 12px 16px; }
+
+      .scroll-hint { display: block; }
+
+      /* 썸네일 축소로 제품열 공간 확보 */
+      .product-thumb,
+      .product-thumb-placeholder {
+        width: 48px;
+        height: 48px;
+        font-size: 16px;
+      }
+
+      thead th.product-header {
+        min-width: 160px;
+        width: 160px;
+      }
+
+      .product-cell-inner { gap: 10px; }
+
+      .product-name { font-size: 12.5px; }
+    }
   </style>
 </head>
 <body>
@@ -299,7 +360,7 @@
 
     <div id="errorBox"></div>
 
-    <div class="table-wrap">
+    <div class="table-wrap" id="tableWrap">
       <table id="stockTable">
         <thead id="tableHead"></thead>
         <tbody id="tableBody">
@@ -307,6 +368,8 @@
         </tbody>
       </table>
     </div>
+
+    <div class="scroll-hint">← 좌우로 스크롤하면 다른 매장도 볼 수 있어요 →</div>
 
     <div class="legend">
       <span style="color:#555; font-weight:600">재고</span>
@@ -348,6 +411,18 @@
       }
       return `<div class="product-thumb-placeholder">📦</div>`;
     }
+
+    function updateScrollShadow() {
+      const wrap = document.getElementById('tableWrap');
+      if (!wrap) return;
+      const atEnd = wrap.scrollLeft + wrap.clientWidth >= wrap.scrollWidth - 2;
+      wrap.classList.toggle('scroll-end', atEnd);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrap = document.getElementById('tableWrap');
+      if (wrap) wrap.addEventListener('scroll', updateScrollShadow);
+    });
 
     function renderTable(data) {
       const head = document.getElementById('tableHead');
@@ -396,6 +471,7 @@
         bodyHtml += '</tr>';
       });
       body.innerHTML = bodyHtml;
+      updateScrollShadow();
     }
 
     async function loadStock() {

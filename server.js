@@ -180,10 +180,11 @@ app.get('/api/stock', async (req, res) => {
       else                           delivery[product.id] = 'none';
     });
 
-    const productsWithImages = PRODUCTS.map(p => ({
+    // Vercel 콜드스타트 시에도 이미지 반환되도록 직접 fetch (내부 캐시 활용)
+    const productsWithImages = await Promise.all(PRODUCTS.map(async p => ({
       ...p,
-      imageUrl: imageCache[p.id] || null
-    }));
+      imageUrl: await fetchProductImage(p)
+    })));
 
     res.json({
       products: productsWithImages,
@@ -198,7 +199,11 @@ app.get('/api/stock', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`\n이케아 재고 현황: http://localhost:${PORT}\n`);
-  prefetchImages();
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n이케아 재고 현황: http://localhost:${PORT}\n`);
+    prefetchImages();
+  });
+} else {
+  module.exports = app;
+}

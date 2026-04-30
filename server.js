@@ -44,6 +44,31 @@ const PRODUCTS = [
     id: '70509820',
     name: '라다 (AAA 충전지)',
     url: 'https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/'
+  },
+  {
+    id: '50624741',
+    name: '그릴플랏스 (단품)',
+    url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-smart-50624741/'
+  },
+  {
+    id: '70617768',
+    name: '클리프보크 (누수센서)',
+    url: 'https://www.ikea.com/kr/ko/p/klippbok-water-leakage-sensor-smart-70617768/'
+  },
+  {
+    id: '10619548',
+    name: '카이플랏스 (E26 컬러 스타터키트)',
+    url: 'https://www.ikea.com/kr/ko/p/kajplats-starter-kit-smart-colour-and-white-spectrum-10619548/'
+  },
+  {
+    id: '60619273',
+    name: '카이플랏스 (E26 컬러 단품)',
+    url: 'https://www.ikea.com/kr/ko/p/kajplats-led-bulb-e26-1055-lumen-smart-colour-and-white-spectrum-globe-opal-white-60619273/'
+  },
+  {
+    id: '60619126',
+    name: '카이플랏스 (E26 CCT 스타터키트)',
+    url: 'https://www.ikea.com/kr/ko/p/kajplats-starter-kit-smart-white-spectrum-60619126/'
   }
 ];
 

@@ -355,6 +355,57 @@
 
     footer a:hover { text-decoration: underline; }
 
+    /* 툴바 (검색 + 정렬) */
+    .toolbar {
+      padding: 10px 24px;
+      border-bottom: 1px solid #e8e8e8;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 140px;
+      padding: 7px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s;
+      font-family: inherit;
+    }
+
+    .search-input:focus { border-color: #0058a3; }
+
+    .btn-sort {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #fff;
+      color: #444;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      font-family: inherit;
+    }
+
+    .btn-sort:hover { background: #f5f5f0; border-color: #bbb; }
+    .btn-sort.active { background: #0058a3; color: #fff; border-color: #0058a3; }
+
+    .no-results-row td {
+      padding: 40px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+    }
+
     /* 모바일 스크롤 힌트 */
     .scroll-hint {
       display: none;
@@ -413,6 +464,13 @@
     </div>
 
     <div id="errorBox"></div>
+
+    <div class="toolbar">
+      <input class="search-input" id="searchInput" type="text" placeholder="제품명 검색..." oninput="applyFilters()">
+      <button class="btn-sort" id="btnSort" onclick="toggleSort()">
+        ↑ 재고 적은 순
+      </button>
+    </div>
 
     <div class="table-wrap" id="tableWrap">
       <table id="stockTable">
@@ -482,21 +540,47 @@
       if (wrap) wrap.addEventListener('scroll', updateScrollShadow);
     });
 
-    function renderTable(data) {
-      const head = document.getElementById('tableHead');
+    let currentData = null;
+    let sortByStock = false;
+
+    function totalStock(product) {
+      if (!currentData) return 0;
+      return currentData.stores.reduce((sum, store) => {
+        const qty = currentData.stock[store]?.[product.id];
+        return sum + (qty || 0);
+      }, 0);
+    }
+
+    function applyFilters() {
+      if (!currentData) return;
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      let products = currentData.products.filter(p =>
+        !query || p.name.toLowerCase().includes(query)
+      );
+      if (sortByStock) {
+        products = [...products].sort((a, b) => totalStock(a) - totalStock(b));
+      }
+      renderRows(products);
+    }
+
+    function toggleSort() {
+      sortByStock = !sortByStock;
+      document.getElementById('btnSort').classList.toggle('active', sortByStock);
+      applyFilters();
+    }
+
+    function renderRows(products) {
       const body = document.getElementById('tableBody');
+      const colSpan = currentData ? currentData.stores.length + 2 : 10;
 
-      // 헤더: 제품열 + 지점열들 + 배송열
-      let headHtml = '<tr><th class="product-header">제품</th>';
-      data.stores.forEach(s => {
-        headHtml += `<th class="store-header">IKEA ${s}</th>`;
-      });
-      headHtml += '<th class="delivery-header">온라인 배송</th></tr>';
-      head.innerHTML = headHtml;
+      if (products.length === 0) {
+        body.innerHTML = `<tr class="no-results-row"><td colspan="${colSpan}">검색 결과가 없습니다.</td></tr>`;
+        updateScrollShadow();
+        return;
+      }
 
-      // 바디: 제품 행 × 지점 열 + 배송 열
       let bodyHtml = '';
-      data.products.forEach(p => {
+      products.forEach(p => {
         bodyHtml += '<tr>';
 
         // 제품 정보 셀 (썸네일 + 이름 + 링크)
@@ -511,16 +595,16 @@
         </td>`;
 
         // 지점별 재고 셀
-        data.stores.forEach(store => {
-          const qty = data.stock[store]?.[p.id];
+        currentData.stores.forEach(store => {
+          const qty = currentData.stock[store]?.[p.id];
           const cls = qtyClass(qty);
           bodyHtml += `<td><span class="qty ${cls}">${qtyLabel(qty)}</span></td>`;
         });
 
         // 배송 가능 여부 셀
-        const del = data.delivery?.[p.id];
+        const del = currentData.delivery?.[p.id];
         let delHtml;
-        if (del === 'all')         delHtml = '<span class="delivery-badge delivery-all">✓ 전국 배송</span>';
+        if (del === 'all')          delHtml = '<span class="delivery-badge delivery-all">✓ 전국 배송</span>';
         else if (del === 'partial') delHtml = '<span class="delivery-badge delivery-partial">△ 일부 지역</span>';
         else if (del === 'none')    delHtml = '<span class="delivery-badge delivery-none">✕ 불가</span>';
         else                        delHtml = '<span class="delivery-badge delivery-null">—</span>';
@@ -530,6 +614,21 @@
       });
       body.innerHTML = bodyHtml;
       updateScrollShadow();
+    }
+
+    function renderTable(data) {
+      currentData = data;
+      const head = document.getElementById('tableHead');
+
+      // 헤더: 제품열 + 지점열들 + 배송열
+      let headHtml = '<tr><th class="product-header">제품</th>';
+      data.stores.forEach(s => {
+        headHtml += `<th class="store-header">IKEA ${s}</th>`;
+      });
+      headHtml += '<th class="delivery-header">온라인 배송</th></tr>';
+      head.innerHTML = headHtml;
+
+      applyFilters();
     }
 
     async function loadStock() {

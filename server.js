@@ -103,7 +103,7 @@ const IKEA_HEADERS = {
   'Referer': 'https://www.ikea.com/'
 };
 
-const imageCache = {};
+const productCache = {}; // { imageUrl, lastChance }
 
 async function fetchJson(url, extraHeaders = {}) {
   const res = await fetch(url, { headers: { ...IKEA_HEADERS, ...extraHeaders } });
@@ -111,8 +111,8 @@ async function fetchJson(url, extraHeaders = {}) {
   return res.json();
 }
 
-async function fetchProductImage(product) {
-  if (imageCache[product.id]) return imageCache[product.id];
+async function fetchProductInfo(product) {
+  if (productCache[product.id]) return productCache[product.id];
   try {
     const res = await fetch(product.url, {
       headers: {
@@ -121,17 +121,16 @@ async function fetchProductImage(product) {
       }
     });
     const html = await res.text();
-    const m = html.match(/property="og:image"\s+content="([^"]+)"/);
-    if (m) {
-      // og:image is _s5 size; request smaller thumbnail
-      const imgUrl = m[1].replace(/_s5\.jpg/, '_s3.jpg');
-      imageCache[product.id] = imgUrl;
-      return imgUrl;
-    }
+    const imgMatch = html.match(/property="og:image"\s+content="([^"]+)"/);
+    // og:image is _s5 size; request smaller thumbnail
+    const imageUrl = imgMatch ? imgMatch[1].replace(/_s5\.jpg/, '_s3.jpg') : null;
+    const lastChance = /마지막\s*기회/.test(html);
+    productCache[product.id] = { imageUrl, lastChance };
+    return productCache[product.id];
   } catch (err) {
-    console.warn(`Image fetch failed for ${product.id}:`, err.message);
+    console.warn(`Product info fetch failed for ${product.id}:`, err.message);
+    return { imageUrl: null, lastChance: false };
   }
-  return null;
 }
 
 async function fetchStoreMap() {
@@ -167,11 +166,11 @@ function extractQuantity(availability) {
   return (qty !== undefined && qty !== null) ? qty : null;
 }
 
-// 서버 시작 시 이미지 프리패치 (백그라운드)
+// 서버 시작 시 제품 정보 프리패치 (백그라운드)
 async function prefetchImages() {
-  console.log('제품 이미지 프리패치 중...');
-  await Promise.all(PRODUCTS.map(p => fetchProductImage(p)));
-  console.log('이미지 프리패치 완료:', Object.keys(imageCache).length, '개');
+  console.log('제품 정보 프리패치 중...');
+  await Promise.all(PRODUCTS.map(p => fetchProductInfo(p)));
+  console.log('제품 정보 프리패치 완료:', Object.keys(productCache).length, '개');
 }
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -226,14 +225,14 @@ app.get('/api/stock', async (req, res) => {
       else                           delivery[product.id] = 'none';
     });
 
-    // Vercel 콜드스타트 시에도 이미지 반환되도록 직접 fetch (내부 캐시 활용)
-    const productsWithImages = await Promise.all(PRODUCTS.map(async p => ({
-      ...p,
-      imageUrl: await fetchProductImage(p)
-    })));
+    // Vercel 콜드스타트 시에도 제품 정보 반환되도록 직접 fetch (내부 캐시 활용)
+    const productsWithInfo = await Promise.all(PRODUCTS.map(async p => {
+      const { imageUrl, lastChance } = await fetchProductInfo(p);
+      return { ...p, imageUrl, lastChance: p.lastChance || lastChance };
+    }));
 
     res.json({
-      products: productsWithImages,
+      products: productsWithInfo,
       stores: TARGET_STORES,
       stock,
       delivery,

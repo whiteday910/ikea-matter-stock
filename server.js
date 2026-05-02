@@ -9,7 +9,8 @@ const PRODUCTS = [
   {
     id: '70509820',
     name: '라다 (AAA 충전지)',
-    url: 'https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/'
+    url: 'https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/',
+    coupangUrl: 'COUPANG_PARTNERS_LINK_HERE'
   },
   {
     id: '40641524',

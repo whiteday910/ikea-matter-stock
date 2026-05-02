@@ -269,6 +269,19 @@
 
     .product-link:hover { text-decoration: underline; }
 
+    .coupang-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      margin-top: 4px;
+      font-size: 11px;
+      color: #c0392b;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .coupang-link:hover { text-decoration: underline; }
+
     /* 수량 뱃지 */
     .qty {
       display: inline-flex;
@@ -604,6 +617,7 @@
             <div class="product-info">
               <span class="product-name">${p.lastChance ? '<span class="last-chance-badge">마지막 기회</span>' : ''}${p.name}</span>
               <a class="product-link" href="${p.url}" target="_blank">IKEA 제품 페이지 →</a>
+              ${p.coupangUrl ? `<a class="coupang-link" href="${p.coupangUrl}" target="_blank" rel="noopener sponsored">🚀 쿠팡에서 대안 보기 →</a>` : ''}
             </div>
           </div>
         </td>`;

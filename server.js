@@ -5,15 +5,11 @@ const app = express();
 const PORT = 3000;
 
 const PRODUCTS = [
+  // 인기순 정렬 (IKEA 제품 페이지 리뷰 수 기준)
   {
-    id: '50624741',
-    name: '그릴플랏스 (단품)',
-    url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-smart-50624741/'
-  },
-  {
-    id: '90620053',
-    name: '그릴플랏스 세트',
-    url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-with-remote-control-smart-90620053/'
+    id: '70509820',
+    name: '라다 (AAA 충전지)',
+    url: 'https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/'
   },
   {
     id: '40641524',
@@ -21,9 +17,9 @@ const PRODUCTS = [
     url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-white-smart-dual-button-40641524/'
   },
   {
-    id: '80641522',
-    name: '빌레사 듀얼버튼 3색 세트',
-    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-kit-dual-button-mixed-colours-80641522/'
+    id: '00619450',
+    name: '뮉스프라위 (모션센서)',
+    url: 'https://www.ikea.com/kr/ko/p/myggspray-wireless-motion-sensor-smart-00619450/'
   },
   {
     id: '10641525',
@@ -31,24 +27,25 @@ const PRODUCTS = [
     url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-white-smart-scroll-wheel-10641525/'
   },
   {
-    id: '60641523',
-    name: '빌레사 스크롤 3색 세트',
-    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-kit-scroll-wheel-mixed-colours-60641523/'
-  },
-  {
-    id: '00619450',
-    name: '뮉스프라위 (모션센서)',
-    url: 'https://www.ikea.com/kr/ko/p/myggspray-wireless-motion-sensor-smart-00619450/'
-  },
-  {
     id: '40617642',
     name: '뮈그베트 (도어센서)',
     url: 'https://www.ikea.com/kr/ko/p/myggbett-door-window-sensor-smart-40617642/'
   },
   {
+    id: '10569845',
+    name: '인스펠닝 (스마트플러그)',
+    url: 'https://www.ikea.com/kr/ko/p/inspelning-plug-smart-energy-monitor-10569845/'
+  },
+  {
     id: '70617768',
     name: '클리프보크 (누수센서)',
     url: 'https://www.ikea.com/kr/ko/p/klippbok-water-leakage-sensor-smart-70617768/'
+  },
+  {
+    id: '80547572',
+    name: '트로드프리 (E26 스타터킷 CCT)',
+    url: 'https://www.ikea.com/kr/ko/p/tradfri-starter-kit-smart-wireless-dimmable-white-spectrum-80547572/',
+    lastChance: true
   },
   {
     id: '10619548',
@@ -61,19 +58,24 @@ const PRODUCTS = [
     url: 'https://www.ikea.com/kr/ko/p/kajplats-led-bulb-e26-1055-lumen-smart-colour-and-white-spectrum-globe-opal-white-60619273/'
   },
   {
+    id: '80641522',
+    name: '빌레사 듀얼버튼 3색 세트',
+    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-kit-dual-button-mixed-colours-80641522/'
+  },
+  {
     id: '60619126',
     name: '카이플랏스 (E26 CCT 스타터키트)',
     url: 'https://www.ikea.com/kr/ko/p/kajplats-starter-kit-smart-white-spectrum-60619126/'
   },
   {
-    id: '70509820',
-    name: '라다 (AAA 충전지)',
-    url: 'https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/'
+    id: '50624741',
+    name: '그릴플랏스 (단품)',
+    url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-smart-50624741/'
   },
   {
-    id: '10569845',
-    name: '인스펠닝 (스마트플러그)',
-    url: 'https://www.ikea.com/kr/ko/p/inspelning-plug-smart-energy-monitor-10569845/'
+    id: '60641523',
+    name: '빌레사 스크롤 3색 세트',
+    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-kit-scroll-wheel-mixed-colours-60641523/'
   },
   {
     id: '60539163',
@@ -81,10 +83,9 @@ const PRODUCTS = [
     url: 'https://www.ikea.com/kr/ko/p/tradfri-led-bulb-e26-470-lumen-smart-wireless-dimmable-warm-white-globe-60539163/'
   },
   {
-    id: '80547572',
-    name: '트로드프리 (E26 스타터킷 CCT)',
-    url: 'https://www.ikea.com/kr/ko/p/tradfri-starter-kit-smart-wireless-dimmable-white-spectrum-80547572/',
-    lastChance: true
+    id: '90620053',
+    name: '그릴플랏스 세트',
+    url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-with-remote-control-smart-90620053/'
   }
 ];
 

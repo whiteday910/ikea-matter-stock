@@ -269,6 +269,21 @@
 
     .product-link:hover { text-decoration: underline; }
 
+    .partners-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      padding: 9px 14px;
+      font-size: 11.5px;
+      color: #777;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+
+    .partners-notice svg { flex-shrink: 0; margin-top: 2px; }
+
     .coupang-link {
       display: inline-flex;
       align-items: center;
@@ -478,6 +493,13 @@
   </header>
 
   <div class="card">
+    <div class="partners-notice">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>이 사이트에는 <strong>쿠팡 파트너스</strong> 링크가 포함되어 있으며, 링크를 통해 구매 시 일정 수수료를 받을 수 있습니다. 이를 통해 서비스를 무료로 운영하고 있습니다.</span>
+    </div>
+
     <div class="card-header">
       <div class="updated-time" id="updatedTime">—</div>
       <button class="btn-refresh" id="btnRefresh" onclick="loadStock()">
@@ -617,7 +639,7 @@
             <div class="product-info">
               <span class="product-name">${p.lastChance ? '<span class="last-chance-badge">마지막 기회</span>' : ''}${p.name}</span>
               <a class="product-link" href="${p.url}" target="_blank">IKEA 제품 페이지 →</a>
-              ${p.coupangUrl ? `<a class="coupang-link" href="${p.coupangUrl}" target="_blank" rel="noopener sponsored">🚀 쿠팡에서 대안 보기 →</a>` : ''}
+              ${p.coupangUrl ? `<a class="coupang-link" href="${p.coupangUrl}" target="_blank" rel="noopener sponsored">쿠팡에서 대안 보기 →</a>` : ''}
             </div>
           </div>
         </td>`;

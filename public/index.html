@@ -555,6 +555,15 @@
   </footer>
 
   <script>
+    function esc(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function qtyClass(qty) {
       if (qty === null || qty === undefined) return 'qty-null';
       if (qty === 0) return 'qty-zero';
@@ -570,7 +579,7 @@
 
     function thumbHtml(product) {
       if (product.imageUrl) {
-        return `<img class="product-thumb" src="${product.imageUrl}" alt="${product.name}"
+        return `<img class="product-thumb" src="${esc(product.imageUrl)}" alt="${esc(product.name)}"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div class="product-thumb-placeholder" style="display:none">📦</div>`;
       }
@@ -637,9 +646,9 @@
           <div class="product-cell-inner">
             ${thumbHtml(p)}
             <div class="product-info">
-              <span class="product-name">${p.lastChance ? '<span class="last-chance-badge">마지막 기회</span>' : ''}${p.name}</span>
-              <a class="product-link" href="${p.url}" target="_blank">IKEA 제품 페이지 →</a>
-              ${p.coupangUrl ? `<a class="coupang-link" href="${p.coupangUrl}" target="_blank" rel="noopener sponsored">쿠팡에서 대안 보기 →</a>` : ''}
+              <span class="product-name">${p.lastChance ? '<span class="last-chance-badge">마지막 기회</span>' : ''}${esc(p.name)}</span>
+              <a class="product-link" href="${esc(p.url)}" target="_blank">IKEA 제품 페이지 →</a>
+              ${p.coupangUrl ? `<a class="coupang-link" href="${esc(p.coupangUrl)}" target="_blank" rel="noopener sponsored">쿠팡에서 대안 보기 →</a>` : ''}
             </div>
           </div>
         </td>`;

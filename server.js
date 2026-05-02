@@ -108,7 +108,10 @@ const IKEA_HEADERS = {
 const productCache = {}; // { imageUrl, lastChance }
 
 async function fetchJson(url, extraHeaders = {}) {
-  const res = await fetch(url, { headers: { ...IKEA_HEADERS, ...extraHeaders } });
+  const res = await fetch(url, {
+    headers: { ...IKEA_HEADERS, ...extraHeaders },
+    signal: AbortSignal.timeout(8000)
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
   return res.json();
 }
@@ -120,7 +123,8 @@ async function fetchProductInfo(product) {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
         'Accept-Language': 'ko-KR,ko;q=0.9'
-      }
+      },
+      signal: AbortSignal.timeout(6000)
     });
     const html = await res.text();
     const imgMatch = html.match(/property="og:image"\s+content="([^"]+)"/);
@@ -234,6 +238,7 @@ app.get('/api/stock', async (req, res) => {
       return { ...p, imageUrl, lastChance: p.lastChance || lastChance };
     }));
 
+    res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
     res.json({
       products: productsWithInfo,
       stores: TARGET_STORES,

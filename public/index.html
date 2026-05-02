@@ -245,6 +245,20 @@
       word-break: keep-all;
     }
 
+    .last-chance-badge {
+      display: inline-block;
+      background: #111;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 2px;
+      margin-right: 4px;
+      vertical-align: middle;
+      white-space: nowrap;
+      letter-spacing: -0.2px;
+    }
+
     .product-link {
       display: inline-block;
       margin-top: 4px;
@@ -588,7 +602,7 @@
           <div class="product-cell-inner">
             ${thumbHtml(p)}
             <div class="product-info">
-              <span class="product-name">${p.name}</span>
+              <span class="product-name">${p.lastChance ? '<span class="last-chance-badge">마지막 기회</span>' : ''}${p.name}</span>
               <a class="product-link" href="${p.url}" target="_blank">IKEA 제품 페이지 →</a>
             </div>
           </div>

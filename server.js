@@ -69,6 +69,22 @@ const PRODUCTS = [
     id: '70509820',
     name: '라다 (AAA 충전지)',
     url: 'https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/'
+  },
+  {
+    id: '10569845',
+    name: '인스펠닝 (스마트플러그)',
+    url: 'https://www.ikea.com/kr/ko/p/inspelning-plug-smart-energy-monitor-10569845/'
+  },
+  {
+    id: '60539163',
+    name: '트로드프리 (E26 470루멘 CCT)',
+    url: 'https://www.ikea.com/kr/ko/p/tradfri-led-bulb-e26-470-lumen-smart-wireless-dimmable-warm-white-globe-60539163/'
+  },
+  {
+    id: '80547572',
+    name: '트로드프리 (E26 스타터킷 CCT)',
+    url: 'https://www.ikea.com/kr/ko/p/tradfri-starter-kit-smart-wireless-dimmable-white-spectrum-80547572/',
+    lastChance: true
   }
 ];
 

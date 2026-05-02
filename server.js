@@ -124,7 +124,8 @@ async function fetchProductInfo(product) {
     const imgMatch = html.match(/property="og:image"\s+content="([^"]+)"/);
     // og:image is _s5 size; request smaller thumbnail
     const imageUrl = imgMatch ? imgMatch[1].replace(/_s5\.jpg/, '_s3.jpg') : null;
-    const lastChance = /마지막\s*기회/.test(html);
+    // 내비게이션 메뉴에도 "마지막 기회" 텍스트가 있으므로 배지 전용 CSS 클래스로 판별
+    const lastChance = /pipf-commercial-message--last-chance|"variant":"last-chance"/.test(html);
     productCache[product.id] = { imageUrl, lastChance };
     return productCache[product.id];
   } catch (err) {

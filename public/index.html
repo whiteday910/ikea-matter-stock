@@ -13,6 +13,10 @@
   <meta name="google-site-verification" content="1e2f0fb78b933830">
   <link rel="canonical" href="https://ikea-matter-stock.vercel.app/">
 
+  <!-- 리소스 힌트: IKEA 이미지 CDN TCP/TLS 사전 연결, 네이버 분석 DNS 사전 조회 -->
+  <link rel="preconnect" href="https://www.ikea.com" crossorigin>
+  <link rel="dns-prefetch" href="//wcs.pstatic.net">
+
   <!-- Open Graph (카카오·네이버 미리보기) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ikea-matter-stock.vercel.app/">
@@ -595,7 +599,7 @@
 
     <div class="card-header">
       <div class="updated-time" id="updatedTime">—</div>
-      <button class="btn-refresh" id="btnRefresh" onclick="loadStock()">
+      <button class="btn-refresh" id="btnRefresh" onclick="loadStock(true)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
              stroke-linecap="round" stroke-linejoin="round">
           <polyline points="23 4 23 10 17 10"></polyline>
@@ -693,6 +697,7 @@
     function thumbHtml(product) {
       if (product.imageUrl) {
         return `<img class="product-thumb" src="${esc(product.imageUrl)}" alt="${esc(product.name)}"
+                     loading="lazy" decoding="async"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div class="product-thumb-placeholder" style="display:none">📦</div>`;
       }
@@ -804,27 +809,68 @@
       applyFilters();
     }
 
-    async function loadStock() {
+    const STOCK_CACHE_KEY = 'ikea_stock_v1';
+    const STOCK_CACHE_TTL = 5 * 60 * 1000; // 5분
+
+    function getCachedStock() {
+      try {
+        const raw = localStorage.getItem(STOCK_CACHE_KEY);
+        if (!raw) return null;
+        const { data, ts } = JSON.parse(raw);
+        return { data, age: Date.now() - ts };
+      } catch (e) { return null; }
+    }
+
+    function setCachedStock(data) {
+      try {
+        localStorage.setItem(STOCK_CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
+      } catch (e) {}
+    }
+
+    function setUpdatedTime(ts, suffix) {
+      const label = ts ? new Date(ts).toLocaleString('ko-KR') : '—';
+      document.getElementById('updatedTime').textContent =
+        `마지막 업데이트: ${label}${suffix ? ' ' + suffix : ''}`;
+    }
+
+    async function loadStock(force = false) {
       const btn = document.getElementById('btnRefresh');
       const errBox = document.getElementById('errorBox');
+
+      // 캐시된 데이터가 있으면 즉시 표시 (강제 새로고침 제외)
+      if (!force) {
+        const cached = getCachedStock();
+        if (cached) {
+          renderTable(cached.data);
+          if (cached.age < STOCK_CACHE_TTL) {
+            setUpdatedTime(cached.data.updatedAt, '');
+            return; // 5분 이내 캐시는 재요청 없이 리턴
+          }
+          setUpdatedTime(cached.data.updatedAt, '(갱신 중...)');
+        }
+      }
 
       btn.disabled = true;
       btn.classList.add('loading');
       errBox.innerHTML = '';
-      document.getElementById('tableBody').innerHTML =
-        '<tr class="loading-row"><td colspan="10">불러오는 중...</td></tr>';
+      if (!currentData) {
+        document.getElementById('tableBody').innerHTML =
+          '<tr class="loading-row"><td colspan="10">불러오는 중...</td></tr>';
+      }
 
       try {
         const res = await fetch('/api/stock');
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+        setCachedStock(data);
         renderTable(data);
-        const ts = data.updatedAt ? new Date(data.updatedAt).toLocaleString('ko-KR') : '—';
-        document.getElementById('updatedTime').textContent = `마지막 업데이트: ${ts}`;
+        setUpdatedTime(data.updatedAt, '');
       } catch (err) {
-        errBox.innerHTML = `<div class="error-box">오류: ${err.message}</div>`;
-        document.getElementById('tableBody').innerHTML =
-          '<tr class="loading-row"><td colspan="10">데이터 로드 실패</td></tr>';
+        if (!currentData) {
+          errBox.innerHTML = `<div class="error-box">오류: ${err.message}</div>`;
+          document.getElementById('tableBody').innerHTML =
+            '<tr class="loading-row"><td colspan="10">데이터 로드 실패</td></tr>';
+        }
       } finally {
         btn.disabled = false;
         btn.classList.remove('loading');

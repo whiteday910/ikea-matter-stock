@@ -188,7 +188,13 @@ async function prefetchImages() {
   console.log('제품 정보 프리패치 완료:', Object.keys(productCache).length, '개');
 }
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=3600');
+    }
+  }
+}));
 
 app.get('/api/debug/stores', async (req, res) => {
   try { res.json(await fetchJson(IKEA_STORES_URL, { 'Accept': 'application/json, */*' })); }
@@ -204,9 +210,13 @@ app.get('/api/debug/availability/:itemNo', async (req, res) => {
 
 app.get('/api/stock', async (req, res) => {
   try {
-    const [storeMap, stockData, ...deliveryByZip] = await Promise.all([
+    const [storeMap, stockData, productsWithInfo, ...deliveryByZip] = await Promise.all([
       fetchStoreMap(),
       fetchAllStock().catch(e => ({ error: e.message, availabilities: [] })),
+      Promise.all(PRODUCTS.map(async p => {
+        const { imageUrl, lastChance } = await fetchProductInfo(p);
+        return { ...p, imageUrl, lastChance: p.lastChance || lastChance };
+      })),
       ...DELIVERY_ZIPS.map(zip => fetchDeliveryByZip(zip).catch(() => ({})))
     ]);
 
@@ -240,13 +250,7 @@ app.get('/api/stock', async (req, res) => {
       else                           delivery[product.id] = 'none';
     });
 
-    // Vercel 콜드스타트 시에도 제품 정보 반환되도록 직접 fetch (내부 캐시 활용)
-    const productsWithInfo = await Promise.all(PRODUCTS.map(async p => {
-      const { imageUrl, lastChance } = await fetchProductInfo(p);
-      return { ...p, imageUrl, lastChance: p.lastChance || lastChance };
-    }));
-
-    res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=3600');
     res.json({
       products: productsWithInfo,
       stores: TARGET_STORES,
@@ -267,4 +271,5 @@ if (require.main === module) {
   });
 } else {
   module.exports = app;
+  prefetchImages(); // Vercel 콜드스타트 시 이미지 캐시 워밍
 }

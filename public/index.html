@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IKEA 매장별 재고 현황 - 기흥 광명 강동 고양 동부산</title>
+  <title>이케아 매터 재고 확인 | IKEA Matter 스마트홈 제품 매장별 실시간 재고</title>
 
   <!-- SEO -->
-  <meta name="description" content="IKEA 기흥점·광명점·강동점·고양점·동부산점의 스마트홈 제품 재고를 실시간으로 확인하세요. 그릴플랏스, 빌레사, 뮉스프라위, 카이플랏스 등 Matter 호환 제품의 매장별 재고 현황과 온라인 배송 가능 여부를 한눈에 볼 수 있습니다.">
-  <meta name="keywords" content="IKEA 재고, 이케아 재고, IKEA 스마트홈, 이케아 매터, IKEA Matter, 그릴플랏스, 빌레사, 카이플랏스, 이케아 기흥, 이케아 광명, 이케아 강동, 이케아 고양, 이케아 동부산, 스마트홈 재고">
+  <meta name="description" content="이케아(IKEA) 매터(Matter)·스마트홈 제품의 매장별 실시간 재고를 확인하세요. 기흥·광명·강동·고양·동부산점의 그릴플랏스, 빌레사, 뮉스프라위, 카이플랏스, 인스펠닝, 트로드프리 재고 현황과 온라인 배송 가능 여부를 한눈에.">
+  <meta name="keywords" content="이케아 재고, 이케아 매터 재고, 이케아 matter, IKEA Matter 재고, 이케아 스마트홈 재고, 그릴플랏스 재고, 빌레사 재고, 뮉스프라위 재고, 카이플랏스 재고, 인스펠닝 재고, 이케아 기흥 재고, 이케아 광명 재고, 이케아 강동 재고, 이케아 고양 재고, 이케아 동부산 재고">
   <meta name="robots" content="index, follow">
   <meta name="naver-site-verification" content="950a6bcbc61340c8fa4a1bd47a855a66b155ec08">
   <meta name="google-site-verification" content="1e2f0fb78b933830">
@@ -16,31 +16,76 @@
   <!-- Open Graph (카카오·네이버 미리보기) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ikea-matter-stock.vercel.app/">
-  <meta property="og:title" content="IKEA 매장별 재고 현황 - 기흥 광명 강동 고양 동부산">
-  <meta property="og:description" content="IKEA 5개 매장의 스마트홈 제품 재고를 실시간으로 확인하세요. 그릴플랏스, 빌레사, 카이플랏스 등 Matter 호환 제품의 매장별 재고와 온라인 배송 가능 여부를 한눈에.">
+  <meta property="og:title" content="이케아 매터 재고 확인 | IKEA Matter 스마트홈 제품 실시간 재고">
+  <meta property="og:description" content="이케아 매터·스마트홈 제품 5개 매장 실시간 재고 확인. 그릴플랏스, 빌레사, 카이플랏스, 인스펠닝 등 매장별 재고와 온라인 배송 가능 여부를 한눈에.">
   <meta property="og:locale" content="ko_KR">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="이케아 매터 재고 확인 | IKEA Matter 스마트홈">
+  <meta name="twitter:description" content="이케아 매터·스마트홈 제품 5개 매장 실시간 재고. 그릴플랏스, 빌레사, 카이플랏스 등.">
 
   <!-- JSON-LD 구조화 데이터 -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "IKEA 매장별 재고 현황",
-    "url": "https://ikea-matter-stock.vercel.app/",
-    "description": "IKEA 기흥·광명·강동·고양·동부산점의 스마트홈 제품 재고를 실시간으로 확인하는 서비스",
-    "applicationCategory": "UtilitiesApplication",
-    "inLanguage": "ko",
-    "author": {
-      "@type": "Person",
-      "name": "네모네모 뚝딱이",
-      "url": "https://www.youtube.com/@nemonemoTTE"
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "이케아 매터 재고 확인",
+      "url": "https://ikea-matter-stock.vercel.app/",
+      "description": "이케아(IKEA) 매터(Matter)·스마트홈 제품의 기흥·광명·강동·고양·동부산점 매장별 실시간 재고 확인 서비스",
+      "applicationCategory": "UtilitiesApplication",
+      "inLanguage": "ko",
+      "author": {
+        "@type": "Person",
+        "name": "네모네모 뚝딱이",
+        "url": "https://www.youtube.com/@nemonemoTTE"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "이케아 매터 스마트홈 제품 재고",
+        "description": "IKEA Matter·Zigbee 호환 스마트홈 제품의 국내 5개 매장 실시간 재고 현황"
+      }
     },
-    "about": {
-      "@type": "Thing",
-      "name": "IKEA 스마트홈 제품 재고",
-      "description": "IKEA Matter 호환 스마트홈 제품의 국내 매장별 재고 현황"
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "이케아 매터(Matter) 제품은 어떤 것들이 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이케아 매터 및 스마트홈 제품으로는 그릴플랏스(스마트 플러그), 빌레사(스마트 리모컨 버튼), 뮉스프라위(스마트 모션 센서), 뮈그베트(스마트 도어·창문 센서), 클리프보크(스마트 누수 센서), 카이플랏스(스마트 LED 전구 E26), 인스펠닝(스마트 에너지 모니터링 플러그), 트로드프리(스마트 LED 전구) 등이 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "이케아 매터 제품 재고를 어떻게 확인하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이 사이트(ikea-matter-stock.vercel.app)에서 이케아 기흥점·광명점·강동점·고양점·동부산점의 매터 및 스마트홈 제품 재고를 실시간으로 확인할 수 있습니다. 각 제품의 매장별 수량과 온라인 배송 가능 여부도 함께 표시됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "이케아 그릴플랏스 재고는 어디서 확인하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이케아 그릴플랏스(GRILLPLATS) 스마트 플러그의 재고는 이 사이트에서 기흥·광명·강동·고양·동부산점 별로 실시간 확인 가능합니다. 단품(50624741)과 리모컨 세트(90620053) 두 종류의 재고를 모두 보여줍니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "이케아 카이플랏스, 빌레사 재고 확인 방법은?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이케아 카이플랏스(KAJPLATS) 스마트 LED 전구와 빌레사(BILRESA) 스마트 리모컨 버튼의 재고는 이 사이트에서 5개 이케아 매장별로 실시간 확인할 수 있습니다."
+          }
+        }
+      ]
     }
-  }
+  ]
   </script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -441,6 +486,41 @@
     .btn-sort:hover { background: #f5f5f0; border-color: #bbb; }
     .btn-sort.active { background: #0058a3; color: #fff; border-color: #0058a3; }
 
+    .seo-section {
+      max-width: 860px;
+      margin: 20px auto 0;
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px 28px;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .seo-section h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 10px;
+    }
+
+    .seo-section p { margin-bottom: 12px; }
+
+    .seo-section ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 6px 20px;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .seo-section li::before {
+      content: "·";
+      margin-right: 6px;
+      color: #0058a3;
+      font-weight: 700;
+    }
+
     .no-results-row td {
       padding: 40px;
       text-align: center;
@@ -487,7 +567,7 @@
   <header>
     <div class="ikea-logo">IKEA</div>
     <div>
-      <h1>매장별 재고 현황</h1>
+      <h1>이케아 매터 재고 현황</h1>
       <div class="subtitle">기흥점 · 광명점 · 강동점 · 고양점 · 동부산점</div>
     </div>
   </header>
@@ -549,6 +629,26 @@
       <a href="/api/debug/availability/90620053" target="_blank">원시 재고</a>
     </div>
   </div>
+
+  <section class="seo-section">
+    <h2>이케아 매터(Matter) · 스마트홈 제품 재고 안내</h2>
+    <p>
+      이 사이트는 이케아(IKEA) 매터(Matter) 및 Zigbee 호환 스마트홈 제품의 국내 5개 매장
+      (기흥점·광명점·강동점·고양점·동부산점) 실시간 재고를 확인할 수 있는 서비스입니다.
+      이케아 재고를 매장 방문 전에 미리 확인하고, 온라인 배송 가능 여부도 한눈에 파악하세요.
+    </p>
+    <ul>
+      <li><strong>그릴플랏스 (GRILLPLATS)</strong> — 이케아 Matter 스마트 플러그 (단품 / 리모컨 세트)</li>
+      <li><strong>빌레사 (BILRESA)</strong> — 이케아 스마트 리모컨 버튼 (듀얼 / 스크롤 / 3색 세트)</li>
+      <li><strong>뮉스프라위 (MYGGSPRAY)</strong> — 이케아 스마트 모션 센서</li>
+      <li><strong>뮈그베트 (MYGGBETT)</strong> — 이케아 스마트 도어·창문 센서</li>
+      <li><strong>클리프보크 (KLIPPBOK)</strong> — 이케아 스마트 누수 센서</li>
+      <li><strong>카이플랏스 (KAJPLATS)</strong> — 이케아 스마트 LED 전구 E26 (컬러 / CCT)</li>
+      <li><strong>인스펠닝 (INSPELNING)</strong> — 이케아 스마트 에너지 모니터링 플러그</li>
+      <li><strong>트로드프리 (TRÅDFRI)</strong> — 이케아 스마트 LED 전구 E26 CCT</li>
+      <li><strong>라다 (LADDA)</strong> — 이케아 AAA 충전지</li>
+    </ul>
+  </section>
 
   <footer>
     Made by <a href="https://www.youtube.com/@nemonemoTTE" target="_blank" rel="noopener">네모네모 뚝딱이</a>

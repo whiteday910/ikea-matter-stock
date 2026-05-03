@@ -15,7 +15,8 @@ const PRODUCTS = [
   {
     id: '40641524',
     name: '빌레사 듀얼 버튼',
-    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-white-smart-dual-button-40641524/'
+    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-white-smart-dual-button-40641524/',
+    naverStoreUrl: 'https://smartstore.naver.com/nemonemotte/products/13337710508'
   },
   {
     id: '00619450',
@@ -26,7 +27,8 @@ const PRODUCTS = [
   {
     id: '10641525',
     name: '빌레사 스크롤 버튼',
-    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-white-smart-scroll-wheel-10641525/'
+    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-white-smart-scroll-wheel-10641525/',
+    naverStoreUrl: 'https://smartstore.naver.com/nemonemotte/products/13337815597'
   },
   {
     id: '40617642',
@@ -53,7 +55,8 @@ const PRODUCTS = [
   {
     id: '10619548',
     name: '카이플랏스 (E26 컬러 스타터키트)',
-    url: 'https://www.ikea.com/kr/ko/p/kajplats-starter-kit-smart-colour-and-white-spectrum-10619548/'
+    url: 'https://www.ikea.com/kr/ko/p/kajplats-starter-kit-smart-colour-and-white-spectrum-10619548/',
+    naverStoreUrl: 'https://smartstore.naver.com/nemonemotte/products/13329601861'
   },
   {
     id: '60619273',

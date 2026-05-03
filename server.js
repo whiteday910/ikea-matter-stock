@@ -20,7 +20,8 @@ const PRODUCTS = [
   {
     id: '00619450',
     name: '뮉스프라위 (모션센서)',
-    url: 'https://www.ikea.com/kr/ko/p/myggspray-wireless-motion-sensor-smart-00619450/'
+    url: 'https://www.ikea.com/kr/ko/p/myggspray-wireless-motion-sensor-smart-00619450/',
+    naverStoreUrl: 'https://smartstore.naver.com/nemonemotte/products/13328606530'
   },
   {
     id: '10641525',
@@ -30,7 +31,8 @@ const PRODUCTS = [
   {
     id: '40617642',
     name: '뮈그베트 (도어센서)',
-    url: 'https://www.ikea.com/kr/ko/p/myggbett-door-window-sensor-smart-40617642/'
+    url: 'https://www.ikea.com/kr/ko/p/myggbett-door-window-sensor-smart-40617642/',
+    naverStoreUrl: 'https://smartstore.naver.com/nemonemotte/products/13332262394'
   },
   {
     id: '10569845',
@@ -61,7 +63,8 @@ const PRODUCTS = [
   {
     id: '80641522',
     name: '빌레사 듀얼버튼 3색 세트',
-    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-kit-dual-button-mixed-colours-80641522/'
+    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-kit-dual-button-mixed-colours-80641522/',
+    naverStoreUrl: 'https://smartstore.naver.com/nemonemotte/products/13395747329'
   },
   {
     id: '60619126',
@@ -76,7 +79,8 @@ const PRODUCTS = [
   {
     id: '60641523',
     name: '빌레사 스크롤 3색 세트',
-    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-kit-scroll-wheel-mixed-colours-60641523/'
+    url: 'https://www.ikea.com/kr/ko/p/bilresa-remote-control-kit-scroll-wheel-mixed-colours-60641523/',
+    naverStoreUrl: 'https://smartstore.naver.com/nemonemotte/products/13395362271'
   },
   {
     id: '60539163',

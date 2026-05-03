@@ -342,6 +342,19 @@
 
     .coupang-link:hover { text-decoration: underline; }
 
+    .naver-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      margin-top: 4px;
+      font-size: 11px;
+      color: #03C75A;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .naver-link:hover { text-decoration: underline; }
+
     /* 수량 뱃지 */
     .qty {
       display: inline-flex;
@@ -749,6 +762,7 @@
               <span class="product-name">${p.lastChance ? '<span class="last-chance-badge">마지막 기회</span>' : ''}${esc(p.name)}</span>
               <a class="product-link" href="${esc(p.url)}" target="_blank">IKEA 제품 페이지 →</a>
               ${p.coupangUrl ? `<a class="coupang-link" href="${esc(p.coupangUrl)}" target="_blank" rel="noopener sponsored">쿠팡에서 대안 보기 →</a>` : ''}
+              ${(p.naverStoreUrl && ['none','partial'].includes(currentData.delivery[p.id])) ? `<a class="naver-link" href="${esc(p.naverStoreUrl)}" target="_blank" rel="noopener">구매 배송 대행 →</a>` : ''}
             </div>
           </div>
         </td>`;

@@ -93,7 +93,8 @@ const PRODUCTS = [
   {
     id: '90620053',
     name: '그릴플랏스 세트',
-    url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-with-remote-control-smart-90620053/'
+    url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-with-remote-control-smart-90620053/',
+    naverStoreUrl: 'https://smartstore.naver.com/nemonemotte/products/13318414935'
   }
 ];
 

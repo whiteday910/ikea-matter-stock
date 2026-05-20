@@ -3,7 +3,13 @@ name: 팀메르플로테 재고 알림
 on:
   schedule:
     - cron: '*/30 * * * *'  # 30분마다 체크
-  workflow_dispatch:         # 수동 실행 가능
+  workflow_dispatch:
+    inputs:
+      test_mode:
+        description: '테스트 모드 (재고 없어도 이메일 강제 발송, count 증가 안 함)'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   check-stock:
@@ -25,6 +31,7 @@ jobs:
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TEST_MODE: ${{ inputs.test_mode }}
         run: node .github/scripts/check-stock.js
 
       - name: Save notification state

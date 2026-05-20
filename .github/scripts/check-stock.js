@@ -7,9 +7,12 @@ const PRODUCT_ID = '00618950';
 const PRODUCT_NAME = '팀메르플로테 (온습도센서)';
 const API_URL = 'https://ikea-matter-stock.vercel.app/api/stock';
 const TO_EMAIL = 'jhkim@elimsoft.co.kr';
+const isTestMode = process.env.TEST_MODE === 'true';
 
 async function main() {
-  // 알림 전송 횟수 확인
+  if (isTestMode) console.log('[테스트 모드] 재고·횟수 조건 무시하고 이메일 강제 발송');
+
+  // 알림 전송 횟수 확인 (테스트 모드 제외)
   let state = { count: 0 };
   try {
     state = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
@@ -17,7 +20,7 @@ async function main() {
     console.log('상태 파일 없음, 초기화.');
   }
 
-  if (state.count >= MAX_NOTIFICATIONS) {
+  if (!isTestMode && state.count >= MAX_NOTIFICATIONS) {
     console.log(`이미 ${state.count}회 알림 발송 완료. 최대 횟수 도달, 종료.`);
     return;
   }
@@ -41,7 +44,7 @@ async function main() {
 
   console.log(`${PRODUCT_NAME} 총 재고: ${totalStock}개`);
 
-  if (totalStock === 0) {
+  if (!isTestMode && totalStock === 0) {
     console.log('재고 없음. 알림 발송 안 함.');
     return;
   }
@@ -64,12 +67,14 @@ async function main() {
   });
 
   const notifyNum = state.count + 1;
+  const testPrefix = isTestMode ? '[테스트] ' : '';
 
   await transporter.sendMail({
     from: `이케아 재고알림 <${process.env.GMAIL_USER}>`,
     to: TO_EMAIL,
-    subject: `[이케아 재고] ${PRODUCT_NAME} 입고! (${notifyNum}/${MAX_NOTIFICATIONS})`,
+    subject: `${testPrefix}[이케아 재고] ${PRODUCT_NAME} 입고! (${notifyNum}/${MAX_NOTIFICATIONS})`,
     text: [
+      isTestMode ? '※ 이것은 테스트 메일입니다. 실제 재고와 무관합니다.\n' : '',
       `${PRODUCT_NAME} 재고가 생겼습니다!`,
       '',
       '■ 매장별 재고',
@@ -84,9 +89,11 @@ async function main() {
 
   console.log(`이메일 발송 완료 (${notifyNum}/${MAX_NOTIFICATIONS})`);
 
-  // 상태 파일 업데이트
-  state.count = notifyNum;
-  fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2) + '\n');
+  // 상태 파일 업데이트 (테스트 모드는 count 증가 안 함)
+  if (!isTestMode) {
+    state.count = notifyNum;
+    fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2) + '\n');
+  }
 }
 
 main().catch(err => {

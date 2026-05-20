@@ -95,6 +95,11 @@ const PRODUCTS = [
     name: '그릴플랏스 세트',
     url: 'https://www.ikea.com/kr/ko/p/grillplats-plug-with-remote-control-smart-90620053/',
     naverStoreUrl: 'https://smartstore.naver.com/nemonemotte/products/13318414935'
+  },
+  {
+    id: '00618950',
+    name: '팀메르플로테 (온습도센서)',
+    url: 'https://www.ikea.com/kr/ko/p/timmerflotte-temperature-humidity-sensor-smart-00618950/'
   }
 ];
 

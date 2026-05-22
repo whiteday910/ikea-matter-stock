@@ -193,10 +193,35 @@ async function prefetchImages() {
   console.log('제품 정보 프리패치 완료:', Object.keys(productCache).length, '개');
 }
 
+// 동적 sitemap: 최신 날짜를 반영하여 제공
+app.get('/sitemap.xml', (req, res) => {
+  const today = new Date().toISOString().slice(0, 10);
+  res.set('Content-Type', 'application/xml; charset=utf-8');
+  res.set('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
+  res.send(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ikea-matter-stock.vercel.app/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>`);
+});
+
 app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res, filePath) => {
     if (filePath.endsWith('.html')) {
+      // HTML: 캐시하되 stale-while-revalidate로 빠른 응답 보장
       res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=3600');
+      // 명시적 색인 허용 (robots 메타와 일치)
+      res.setHeader('X-Robots-Tag', 'index, follow');
+    }
+    if (filePath.endsWith('.xml')) {
+      res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
+    }
+    if (filePath.endsWith('.svg')) {
+      res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
     }
   }
 }));

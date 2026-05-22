@@ -17,79 +17,257 @@
   <link rel="preconnect" href="https://www.ikea.com" crossorigin>
   <link rel="dns-prefetch" href="//wcs.pstatic.net">
 
-  <!-- Open Graph (카카오·네이버 미리보기) -->
+  <!-- Open Graph (카카오·네이버·페이스북 미리보기) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ikea-matter-stock.vercel.app/">
   <meta property="og:title" content="이케아 매터 재고 확인 | IKEA Matter 스마트홈 제품 실시간 재고">
   <meta property="og:description" content="이케아 매터·스마트홈 제품 5개 매장 실시간 재고 확인. 그릴플랏스, 빌레사, 카이플랏스, 인스펠닝 등 매장별 재고와 온라인 배송 가능 여부를 한눈에.">
+  <meta property="og:image" content="https://ikea-matter-stock.vercel.app/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="이케아 매터 재고 확인 서비스 - 기흥·광명·강동·고양·동부산점 실시간 재고">
   <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="이케아 매터 재고 확인">
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="이케아 매터 재고 확인 | IKEA Matter 스마트홈">
-  <meta name="twitter:description" content="이케아 매터·스마트홈 제품 5개 매장 실시간 재고. 그릴플랏스, 빌레사, 카이플랏스 등.">
+  <meta name="twitter:description" content="이케아 매터·스마트홈 제품 5개 매장 실시간 재고. 그릴플랏스, 빌레사, 카이플랏스 등 17개 제품.">
+  <meta name="twitter:image" content="https://ikea-matter-stock.vercel.app/og-image.svg">
+  <meta name="twitter:image:alt" content="이케아 매터 재고 확인 서비스">
 
   <!-- JSON-LD 구조화 데이터 -->
   <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "이케아 매터 재고 확인",
-      "url": "https://ikea-matter-stock.vercel.app/",
-      "description": "이케아(IKEA) 매터(Matter)·스마트홈 제품의 기흥·광명·강동·고양·동부산점 매장별 실시간 재고 확인 서비스",
-      "applicationCategory": "UtilitiesApplication",
-      "inLanguage": "ko",
-      "author": {
-        "@type": "Person",
-        "name": "네모네모 뚝딱이",
-        "url": "https://www.youtube.com/@nemonemoTTE"
-      },
-      "about": {
-        "@type": "Thing",
-        "name": "이케아 매터 스마트홈 제품 재고",
-        "description": "IKEA Matter·Zigbee 호환 스마트홈 제품의 국내 5개 매장 실시간 재고 현황"
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "이케아 매터(Matter) 제품은 어떤 것들이 있나요?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "이케아 매터 및 스마트홈 제품으로는 그릴플랏스(스마트 플러그), 빌레사(스마트 리모컨 버튼), 뮉스프라위(스마트 모션 센서), 뮈그베트(스마트 도어·창문 센서), 클리프보크(스마트 누수 센서), 카이플랏스(스마트 LED 전구 E26), 인스펠닝(스마트 에너지 모니터링 플러그), 트로드프리(스마트 LED 전구) 등이 있습니다."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "이케아 매터 제품 재고를 어떻게 확인하나요?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "이 사이트(ikea-matter-stock.vercel.app)에서 이케아 기흥점·광명점·강동점·고양점·동부산점의 매터 및 스마트홈 제품 재고를 실시간으로 확인할 수 있습니다. 각 제품의 매장별 수량과 온라인 배송 가능 여부도 함께 표시됩니다."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "이케아 그릴플랏스 재고는 어디서 확인하나요?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "이케아 그릴플랏스(GRILLPLATS) 스마트 플러그의 재고는 이 사이트에서 기흥·광명·강동·고양·동부산점 별로 실시간 확인 가능합니다. 단품(50624741)과 리모컨 세트(90620053) 두 종류의 재고를 모두 보여줍니다."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "이케아 카이플랏스, 빌레사 재고 확인 방법은?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "이케아 카이플랏스(KAJPLATS) 스마트 LED 전구와 빌레사(BILRESA) 스마트 리모컨 버튼의 재고는 이 사이트에서 5개 이케아 매장별로 실시간 확인할 수 있습니다."
-          }
-        }
-      ]
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "이케아 매터 재고 확인",
+    "url": "https://ikea-matter-stock.vercel.app/",
+    "description": "이케아(IKEA) 매터(Matter)·Zigbee 스마트홈 제품의 기흥·광명·강동·고양·동부산점 매장별 실시간 재고 확인 서비스",
+    "inLanguage": "ko",
+    "author": {
+      "@type": "Person",
+      "name": "네모네모 뚝딱이",
+      "url": "https://www.youtube.com/@nemonemoTTE"
     }
-  ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "이케아 매터 재고 확인",
+    "url": "https://ikea-matter-stock.vercel.app/",
+    "description": "이케아(IKEA) 매터·스마트홈 제품의 기흥·광명·강동·고양·동부산점 5개 매장 실시간 재고 확인 서비스. 그릴플랏스, 카이플랏스, 빌레사, 뮉스프라위 등 17개 제품의 매장별 수량과 온라인 배송 가능 여부를 제공합니다.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KRW"
+    },
+    "inLanguage": "ko",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "네모네모 뚝딱이",
+      "url": "https://www.youtube.com/@nemonemoTTE"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "이케아 매터 스마트홈 제품 재고",
+      "description": "IKEA Matter·Zigbee 호환 스마트홈 제품의 국내 5개 매장 실시간 재고 현황"
+    },
+    "keywords": "이케아 재고,이케아 매터,IKEA Matter,그릴플랏스,카이플랏스,빌레사,뮉스프라위,이케아 스마트홈"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "이케아 매터·스마트홈 제품 목록",
+    "description": "이케아 국내 매장에서 구매 가능한 매터·Zigbee 호환 스마트홈 제품 목록",
+    "url": "https://ikea-matter-stock.vercel.app/",
+    "numberOfItems": 17,
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Product",
+          "name": "그릴플랏스 스마트 플러그 단품",
+          "description": "Matter 호환 스마트 플러그. 원격 제어 및 에너지 모니터링 가능.",
+          "sku": "50624741",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/grillplats-plug-smart-50624741/"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Product",
+          "name": "그릴플랏스 스마트 플러그 세트 (리모컨 포함)",
+          "description": "Matter 호환 스마트 플러그 + 무선 리모컨 세트.",
+          "sku": "90620053",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/grillplats-plug-with-remote-control-smart-90620053/"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "Product",
+          "name": "카이플랏스 E26 컬러 스타터킷",
+          "description": "Matter 호환 E26 스마트 LED 전구 스타터킷. 컬러+화이트 스펙트럼.",
+          "sku": "10619548",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/kajplats-starter-kit-smart-colour-and-white-spectrum-10619548/"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "Product",
+          "name": "카이플랏스 E26 컬러 단품",
+          "description": "Matter 호환 E26 스마트 LED 전구 단품. 1055루멘, 컬러+화이트 스펙트럼.",
+          "sku": "60619273",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/kajplats-led-bulb-e26-1055-lumen-smart-colour-and-white-spectrum-globe-opal-white-60619273/"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "item": {
+          "@type": "Product",
+          "name": "빌레사 스마트 듀얼 버튼 리모컨",
+          "description": "Zigbee 무선 리모컨 버튼. 조명·기기 제어용.",
+          "sku": "40641524",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/bilresa-remote-control-white-smart-dual-button-40641524/"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "item": {
+          "@type": "Product",
+          "name": "뮉스프라위 스마트 모션 센서",
+          "description": "Zigbee 무선 모션 감지 센서. 사람 움직임 감지 자동화.",
+          "sku": "00619450",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/myggspray-wireless-motion-sensor-smart-00619450/"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "item": {
+          "@type": "Product",
+          "name": "뮈그베트 스마트 도어·창문 센서",
+          "description": "Zigbee 도어·창문 개폐 감지 센서.",
+          "sku": "40617642",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/myggbett-door-window-sensor-smart-40617642/"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 8,
+        "item": {
+          "@type": "Product",
+          "name": "인스펠닝 스마트 에너지 모니터링 플러그",
+          "description": "Zigbee 스마트 플러그 + 실시간 에너지 모니터링.",
+          "sku": "10569845",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/inspelning-plug-smart-energy-monitor-10569845/"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 9,
+        "item": {
+          "@type": "Product",
+          "name": "클리프보크 스마트 누수 센서",
+          "description": "Zigbee 누수 감지 센서. 물 감지 시 즉각 앱 알림.",
+          "sku": "70617768",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/klippbok-water-leakage-sensor-smart-70617768/"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 10,
+        "item": {
+          "@type": "Product",
+          "name": "팀메르플로테 스마트 온습도 센서",
+          "description": "Matter 호환 온도·습도 센서. 실내 환경 실시간 모니터링.",
+          "sku": "00618950",
+          "brand": { "@type": "Brand", "name": "IKEA" },
+          "url": "https://www.ikea.com/kr/ko/p/timmerflotte-temperature-humidity-sensor-smart-00618950/"
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "이케아 매터(Matter) 제품은 어떤 것들이 있나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "이케아 매터 제품으로는 그릴플랏스(스마트 플러그), 카이플랏스(스마트 LED 전구 E26), 팀메르플로테(온습도 센서) 등이 있습니다. Zigbee 호환 제품으로는 빌레사(스마트 리모컨), 뮉스프라위(모션 센서), 뮈그베트(도어·창문 센서), 클리프보크(누수 센서), 인스펠닝(에너지 모니터링 플러그), 트로드프리(LED 전구) 등이 있습니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "이케아 재고를 실시간으로 확인할 수 있나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "네, 이 사이트(ikea-matter-stock.vercel.app)에서 이케아 기흥점·광명점·강동점·고양점·동부산점의 매터 및 스마트홈 제품 재고를 실시간으로 확인할 수 있습니다. 5분 간격으로 캐시가 갱신되며, 새로고침 버튼으로 즉시 최신 데이터를 불러올 수 있습니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "이케아 그릴플랏스 재고는 어디서 확인하나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "이케아 그릴플랏스(GRILLPLATS) 스마트 플러그의 재고는 이 사이트에서 기흥·광명·강동·고양·동부산점 별로 실시간 확인 가능합니다. 단품(50624741)과 리모컨 세트(90620053) 두 종류의 재고를 모두 보여줍니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "온라인 배송 가능 여부는 어떻게 확인하나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "표 오른쪽 끝 온라인 배송 열에서 전국 배송·일부 지역·불가 여부를 확인할 수 있습니다. 배송 불가 또는 일부 지역 배송인 경우, 일부 제품에는 네이버 스토어를 통한 구매 배송 대행 링크도 제공됩니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "이케아 카이플랏스, 빌레사 재고 확인 방법은?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "이케아 카이플랏스(KAJPLATS) 스마트 LED 전구와 빌레사(BILRESA) 스마트 리모컨 버튼의 재고는 이 사이트에서 5개 이케아 매장별로 실시간 확인할 수 있습니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "이케아 스마트홈 제품은 애플 홈킷(HomeKit)과 호환되나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "이케아 Matter 인증 제품(그릴플랏스, 카이플랏스, 팀메르플로테 등)은 Matter 프로토콜을 통해 애플 홈킷, 구글 홈, 아마존 알렉사, 삼성 스마트싱스 등 주요 스마트홈 플랫폼과 호환됩니다. Zigbee 제품은 이케아 디리게라(DIRIGERA) 허브가 필요합니다."
+        }
+      }
+    ]
+  }
   </script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -443,6 +621,153 @@
 
     .debug-link a { color: #aaa; }
 
+    /* 정적 SEO 콘텐츠 섹션 */
+    .info-section,
+    .faq-section {
+      max-width: 1100px;
+      margin: 20px auto 0;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+      padding: 28px 32px;
+    }
+
+    .info-section h2,
+    .faq-section h2 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: #111;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .info-section h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 20px 0 8px;
+      color: #333;
+    }
+
+    .info-lead {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #444;
+      margin-bottom: 4px;
+    }
+
+    .store-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      list-style: none;
+      padding: 0;
+      margin-bottom: 4px;
+    }
+
+    .store-list li {
+      background: #f0f5fb;
+      color: #0058a3;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+
+    .product-list-static {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 10px;
+    }
+
+    .product-list-static li {
+      background: #f7f7f7;
+      border-radius: 6px;
+      padding: 10px 14px;
+    }
+
+    .product-list-static li strong {
+      display: block;
+      font-size: 13.5px;
+      color: #111;
+      margin-bottom: 3px;
+    }
+
+    .product-list-static li span {
+      font-size: 12.5px;
+      color: #666;
+      line-height: 1.55;
+    }
+
+    .product-list-static li a {
+      font-size: 11.5px;
+      color: #0058a3;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 4px;
+    }
+
+    .product-list-static li a:hover { text-decoration: underline; }
+
+    .how-to-list {
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    .how-to-list li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 4px;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .faq-item {
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .faq-item:last-child { border-bottom: none; }
+
+    .faq-item dt {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 6px;
+    }
+
+    .faq-item dt::before {
+      content: 'Q. ';
+      color: #0058a3;
+    }
+
+    .faq-item dd {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #555;
+      margin-left: 0;
+    }
+
+    @media (max-width: 640px) {
+      .info-section,
+      .faq-section {
+        padding: 20px 16px;
+        border-radius: 6px;
+        margin: 12px auto 0;
+      }
+
+      .product-list-static {
+        grid-template-columns: 1fr;
+      }
+    }
+
     footer {
       max-width: 1100px;
       margin: 20px auto 0;
@@ -554,6 +879,8 @@
     </div>
   </header>
 
+  <main>
+
   <div class="card">
     <div class="partners-notice">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round">
@@ -610,7 +937,118 @@
       <a href="/api/debug/stores" target="_blank">매장 목록</a> ·
       <a href="/api/debug/availability/90620053" target="_blank">원시 재고</a>
     </div>
-  </div>
+  </div><!-- /.card -->
+
+  <!-- 정적 제품 안내 섹션: 검색엔진 크롤러가 JavaScript 없이도 읽을 수 있는 콘텐츠 -->
+  <section class="info-section" aria-labelledby="info-heading">
+    <h2 id="info-heading">이케아 매터·스마트홈 제품 재고 안내</h2>
+    <p class="info-lead">이 서비스는 이케아(IKEA) 매터(Matter)·Zigbee 호환 스마트홈 제품의 국내 5개 매장 재고를 실시간으로 보여줍니다. 기흥점, 광명점, 강동점, 고양점, 동부산점의 매장별 재고 수량과 온라인 배송 가능 여부를 한 화면에서 확인할 수 있습니다.</p>
+
+    <h3>확인 가능한 이케아 매장</h3>
+    <ul class="store-list">
+      <li>IKEA 기흥점 (경기 용인)</li>
+      <li>IKEA 광명점 (경기 광명)</li>
+      <li>IKEA 강동점 (서울 강동)</li>
+      <li>IKEA 고양점 (경기 고양)</li>
+      <li>IKEA 동부산점 (부산 기장)</li>
+    </ul>
+
+    <h3>이케아 매터·스마트홈 제품 목록</h3>
+    <ul class="product-list-static">
+      <li>
+        <strong>그릴플랏스 (GRILLPLATS) 스마트 플러그</strong>
+        <span>Matter 호환 스마트 플러그. 스마트폰 앱으로 원격 제어·예약·에너지 모니터링 가능. 단품(#50624741)과 리모컨 세트(#90620053) 제공.</span>
+        <a href="https://www.ikea.com/kr/ko/p/grillplats-plug-smart-50624741/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+      <li>
+        <strong>카이플랏스 (KAJPLATS) 스마트 LED 전구</strong>
+        <span>Matter 호환 E26 스마트 전구. 컬러+화이트 스펙트럼, 최대 1055루멘. 스타터킷(#10619548, #60619126)과 단품(#60619273) 구성.</span>
+        <a href="https://www.ikea.com/kr/ko/p/kajplats-starter-kit-smart-colour-and-white-spectrum-10619548/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+      <li>
+        <strong>빌레사 (BILRESA) 스마트 리모컨 버튼</strong>
+        <span>Zigbee 무선 리모컨. 듀얼 버튼(#40641524)·스크롤 버튼(#10641525) 및 3색 세트(#80641522, #60641523) 구성.</span>
+        <a href="https://www.ikea.com/kr/ko/p/bilresa-remote-control-white-smart-dual-button-40641524/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+      <li>
+        <strong>뮉스프라위 (MYGGSPRAY) 스마트 모션 센서</strong>
+        <span>Zigbee 무선 모션 감지 센서. 사람 움직임 감지 시 조명·기기 자동 제어 가능(#00619450).</span>
+        <a href="https://www.ikea.com/kr/ko/p/myggspray-wireless-motion-sensor-smart-00619450/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+      <li>
+        <strong>뮈그베트 (MYGGBETT) 스마트 도어·창문 센서</strong>
+        <span>Zigbee 도어·창문 개폐 감지 센서. 열림/닫힘 상태를 앱으로 확인하고 자동화 트리거로 활용(#40617642).</span>
+        <a href="https://www.ikea.com/kr/ko/p/myggbett-door-window-sensor-smart-40617642/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+      <li>
+        <strong>인스펠닝 (INSPELNING) 스마트 에너지 플러그</strong>
+        <span>Zigbee 스마트 플러그 + 에너지 모니터링. 실시간 전력 소비 데이터 확인 가능(#10569845).</span>
+        <a href="https://www.ikea.com/kr/ko/p/inspelning-plug-smart-energy-monitor-10569845/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+      <li>
+        <strong>클리프보크 (KLIPPBOK) 스마트 누수 센서</strong>
+        <span>Zigbee 누수 감지 센서. 물 감지 시 즉각 앱 알림. 세탁기·싱크대 하단 설치 권장(#70617768).</span>
+        <a href="https://www.ikea.com/kr/ko/p/klippbok-water-leakage-sensor-smart-70617768/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+      <li>
+        <strong>팀메르플로테 (TIMMERFLOTTE) 온습도 센서</strong>
+        <span>Matter 호환 온도·습도 센서. 실내 환경을 실시간으로 모니터링하고 자동화에 활용(#00618950).</span>
+        <a href="https://www.ikea.com/kr/ko/p/timmerflotte-temperature-humidity-sensor-smart-00618950/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+      <li>
+        <strong>트로드프리 (TRADFRI) 스마트 LED 전구</strong>
+        <span>Zigbee E26 스마트 전구. CCT 스타터킷(#80547572)과 470루멘 단품(#60539163). 일부 마지막 기회 상품.</span>
+        <a href="https://www.ikea.com/kr/ko/p/tradfri-starter-kit-smart-wireless-dimmable-white-spectrum-80547572/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+      <li>
+        <strong>라다 (LADDA) AAA 충전지</strong>
+        <span>고용량 1.2V AAA 충전식 배터리. 스마트홈 센서·리모컨 기기에 최적(#70509820).</span>
+        <a href="https://www.ikea.com/kr/ko/p/ladda-rechargeable-battery-hr03-aaa-1-2v-70509820/" rel="noopener">IKEA 제품 보기</a>
+      </li>
+    </ul>
+
+    <h3>이용 방법</h3>
+    <ol class="how-to-list">
+      <li>페이지 접속 시 자동으로 재고 데이터를 불러옵니다.</li>
+      <li>제품명 검색창에 제품명을 입력하거나, 재고 적은 순 정렬 버튼을 활용하세요.</li>
+      <li>각 매장 열에서 재고 수량을 확인하고, 오른쪽 끝 열에서 온라인 배송 가능 여부를 확인하세요.</li>
+      <li>제품명 아래 링크를 통해 IKEA 공식 제품 페이지로 이동하거나 온라인 구매를 진행할 수 있습니다.</li>
+      <li>새로고침 버튼으로 언제든지 최신 재고를 다시 불러올 수 있습니다.</li>
+    </ol>
+  </section>
+
+  <!-- FAQ 섹션: HTML 텍스트로 제공 (JSON-LD와 함께 이중 제공) -->
+  <section class="faq-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">자주 묻는 질문 (FAQ)</h2>
+    <dl class="faq-list">
+      <div class="faq-item">
+        <dt>이케아 매터(Matter) 제품은 어떤 것들이 있나요?</dt>
+        <dd>이케아 매터 제품으로는 <strong>그릴플랏스</strong>(스마트 플러그), <strong>카이플랏스</strong>(스마트 LED 전구 E26), <strong>팀메르플로테</strong>(온습도 센서) 등이 있습니다. Zigbee 호환 스마트홈 제품으로는 빌레사(스마트 리모컨), 뮉스프라위(모션 센서), 뮈그베트(도어·창문 센서), 클리프보크(누수 센서), 인스펠닝(에너지 모니터링 플러그), 트로드프리(LED 전구) 등이 있습니다.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>이케아 재고를 실시간으로 확인할 수 있나요?</dt>
+        <dd>네, 이 사이트는 이케아 공식 API를 사용해 <strong>기흥점·광명점·강동점·고양점·동부산점</strong>의 매터 및 스마트홈 제품 재고를 실시간으로 가져옵니다. 5분 간격으로 캐시가 갱신되며, 새로고침 버튼으로 즉시 최신 데이터를 불러올 수 있습니다.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>이케아 그릴플랏스 재고는 어디서 확인하나요?</dt>
+        <dd>이케아 <strong>그릴플랏스(GRILLPLATS)</strong> 스마트 플러그의 재고는 위 표에서 기흥·광명·강동·고양·동부산점별로 확인할 수 있습니다. 단품(#50624741)과 리모컨 세트(#90620053) 두 가지 제품 모두 표시됩니다.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>온라인 배송 가능 여부는 어떻게 확인하나요?</dt>
+        <dd>표 오른쪽 끝 <strong>"온라인 배송"</strong> 열에서 전국 배송·일부 지역·불가 여부를 확인할 수 있습니다. 배송 불가 또는 일부 지역인 경우, 일부 제품에는 네이버 스토어를 통한 구매 배송 대행 링크도 제공됩니다.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>이케아 카이플랏스, 빌레사 재고 확인 방법은?</dt>
+        <dd>이케아 <strong>카이플랏스(KAJPLATS)</strong> 스마트 LED 전구와 <strong>빌레사(BILRESA)</strong> 스마트 리모컨 버튼의 재고는 위 재고 현황 표에서 5개 이케아 매장별로 실시간 확인할 수 있습니다.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>이케아 스마트홈 제품은 애플 홈킷(HomeKit)과 호환되나요?</dt>
+        <dd>이케아 매터 인증 제품(그릴플랏스, 카이플랏스, 팀메르플로테 등)은 Matter 프로토콜을 통해 <strong>애플 홈킷, 구글 홈, 아마존 알렉사, 삼성 스마트싱스</strong> 등 주요 스마트홈 플랫폼과 호환됩니다. Zigbee 제품은 이케아 디리게라(DIRIGERA) 허브가 필요합니다.</dd>
+      </div>
+    </dl>
+  </section>
+
+  </main>
 
   <footer>
     Made by <a href="https://www.youtube.com/@nemonemoTTE" target="_blank" rel="noopener">네모네모 뚝딱이</a>

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://ikea-matter-stock.vercel.app/sitemap.xml
